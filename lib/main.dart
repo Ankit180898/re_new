@@ -1,17 +1,28 @@
+import 'dart:isolate';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:get/get.dart';
 import 'Controllers/internet_controller.dart';
 import 'Screens/Ui/homePage.dart';
 import 'Services/api_service.dart';
+import 'Services/background_service.dart';
 
 void main() async{
   await dotenv.load(fileName:".env");
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Plugin must be initialized before using
+  await FlutterDownloader.initialize(
+      debug: false, // optional: set to false to disable printing logs to console (default: true)
+      ignoreSsl: true // option: set to false to disable working with http links (default: false)
+  );
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+   MyApp({super.key});
 
 
   // This widget is the root of your application.

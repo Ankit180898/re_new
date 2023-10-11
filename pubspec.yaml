@@ -43,6 +43,7 @@ dependencies:
   google_fonts:
   image_picker:
   connectivity_plus:
+  flutter_downloader:
 
 
 dev_dependencies:

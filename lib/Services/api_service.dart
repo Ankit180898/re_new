@@ -28,19 +28,25 @@ class ApiService {
   Future<dynamic> post(String url, Map<String, String> headers, Map<String, String> body) async {
     if (!_internetController.isConnected) {
       throw Exception('No internet connection.');
-    }
-    else {
+    } else {
       try {
-        final response = await http.post(Uri.parse(url), headers: headers,body:json.encode(body) );
-        if (response.statusCode == 200) {
-          return json.decode(response.body);
+        final response = await http.post(Uri.parse(url), headers: headers, body: json.encode(body));
+        if (response is Map<String, dynamic>) {
+          if (response.statusCode == 200) {
+            return response.body;
+          } else {
+            final errorMessage = response.body;
+            throw Exception('Failed to load data: $errorMessage');
+          }
         } else {
-          throw Exception('Failed to load data: ${json.decode(response.body)['message']}');
+          // Handle the response structure based on its actual type
+          throw Exception('Unexpected response structure');
         }
       } catch (e) {
         throw Exception('Failed to load data: $e');
       }
     }
   }
+
 
 }
